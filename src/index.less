@@ -26,6 +26,7 @@ code {
   max-width: 1080px;
   margin: 0 auto;
   margin: 50px auto;
+  
 
 
   header {
@@ -46,24 +47,14 @@ code {
     h1 {
       margin: 0;
     }
-  }
-
- 
-
-  .button {
-    background: #FFFFFF;
-    border: 1px solid #f2f2f2;
-    box-sizing: border-box;
-    border-radius: 8px;
-    height: 32px;
-    width: 32px;
-    cursor: pointer;
+    
   }
 
   .search-block {
     border: 1px solid #f3f3f3;
     border-radius: 10px;
     padding: 0 15px;
+    position: relative;
 
     input {
       border: none;
@@ -71,10 +62,19 @@ code {
       font-size: 16px;
       width: 200px;
     }
+
+    .clear {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      width: 18px;
+      height: 18px;
+      top: 13px;
+      right: 15px;
+    }
   }
 
   .overlay {
-    display: none;
     position: absolute;
     left: 0;
     top: 0;
@@ -82,6 +82,7 @@ code {
     z-index: 1;
     height: 100%;
     width: 100%;
+    
 
     .drawer {
       display: flex;
@@ -93,6 +94,7 @@ code {
       height: 100%;
       right: 0;
       padding: 30px;
+      overflow: auto;
 
       .items {
         flex: 1;
@@ -130,6 +132,17 @@ code {
         }
 
 
+      }
+
+      .cartEmpty {
+        p {
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: center;
+          padding: 9px 0 40px 0;
+        }
       }
 
       .greenButton {

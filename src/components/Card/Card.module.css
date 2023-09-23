@@ -5,7 +5,6 @@
   border-radius: 40px;
   margin-right: 30px;
   transition: box-shadow 0.2s ease-in-out, transofrm 0.2s ease-in-out;
-  cursor: pointer;
 }
 .card:hover {
   box-shadow: 0px 14px 35px rgba(0, 0, 0, 0.06);
@@ -13,6 +12,9 @@
 }
 .card .favorite {
   position: absolute;
+  cursor: pointer;
+}
+.card .plus {
   cursor: pointer;
 }
 .card span {

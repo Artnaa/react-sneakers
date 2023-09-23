@@ -2,62 +2,66 @@ import './App.css';
 import Card from './components/Card/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer'
+import React from 'react';
+import axios from 'axios';
+import Home from './pages/Home';
+import { Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-const arr = [
-  {
-    title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-    price: 12999,
-    imageUrl: './img/sneakers/image1.png'
-  },
 
-  {
-    title: 'Мужские Кроссовки Nike Air Max 270',
-    price: 12999,
-    imageUrl: './img/sneakers/image6.png'
-  },
-
-  {
-    title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-    price: 8999,
-    imageUrl: './img/sneakers/image 5-8.png'
-  },
-
-  {
-    title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-    price: 8499,
-    imageUrl: './img/sneakers/image1.png'
-  },
-
-]
 
 function App() {
-  return (
-    <div className="wrapper clear">
-      <Drawer />
-      <Header />
-      <div className='content p-40'>
-        <div className='d-flex align-center mb-40 justify-between'>
-          <h1>Все кроссовоки</h1>
-          <div className='search-block'>
-            <img src="./img/Search.svg" alt="Search" />
-            <input placeholder='Поиск' />
-          </div>
-        </div>
-        <div className='sneakers d-flex'>
+  const [items, setItems] = React.useState([])
+  const [cartItems, setCartItems] = React.useState([])
+  const [favorites, setFavorites] = React.useState(false)
+  const [serachValue, setSearchValue] = React.useState('')
+  const [cartOpened, setCartOpened] = React.useState(false)
 
-          {arr.map((obj) => (
-            <Card
-              title={obj.title}
-              price={obj.price}
-              imageUrl={obj.imageUrl}
-              onClick={() => {
-                console.log(obj);
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </div >
+
+  React.useEffect(() => {
+    axios.get("https://6501d5dd736d26322f5c5cf0.mockapi.io/sneakers/api/v1/Items")
+      .then(resp => {
+        setItems(resp.data)
+      })
+
+    axios.get("https://6501d5dd736d26322f5c5cf0.mockapi.io/sneakers/api/v1/Cart")
+      .then(resp => {
+        setCartItems(resp.data)
+      })
+
+  }, [])
+
+  const onAddToCart = (obj) => {
+    axios.post("https://6501d5dd736d26322f5c5cf0.mockapi.io/sneakers/api/v1/Cart", obj)
+    setCartItems([...cartItems, obj])
+  };
+
+  const onRemoveItem = (id) => {
+    axios.delete(`https://6501d5dd736d26322f5c5cf0.mockapi.io/sneakers/api/v1/Cart/${id}`)
+    setCartItems(cartItems.filter(item => item.id !== id))
+  }
+  const onAddToFavorite = (obj) => {
+    axios.post("https://6506af203a38daf4803e9983.mockapi.io/Favorites", obj)
+    setCartItems([...cartItems, obj])
+  }
+
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value)
+  }
+
+
+
+  return (
+    <Router path='/' exact>
+      <div className="wrapper clear">
+        {cartOpened ? <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} /> : null}
+        <Header onClickCart={() => setCartOpened(true)} />
+        <Home items={items} serachValue={serachValue} setSearchValue={setSearchValue} onChangeSearchInput={onChangeSearchInput} onAddToFavorite={onAddToFavorite} onAddToCart={onAddToCart} />
+      </div >
+    </Router>
+
+    
+
   );
 }
 
