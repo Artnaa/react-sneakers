@@ -8,7 +8,7 @@ import Favorites from './pages/Favorites';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <App/>
- <Favorites/>
+  <App/>
+//  <Favorites/>
  
 );
